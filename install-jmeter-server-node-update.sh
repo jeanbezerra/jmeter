@@ -4,6 +4,17 @@
 # Copyright (c) Yaman Tecnologia LTDA
 # Yaman - JMeter Server
 
+###################### Remover versões anteriores
+
+cd /opt/
+rm -rf microsoft-jdk-17
+rm -rf microsoft-jdk-17.0.14-linux-x64.tar.gz
+rm -rf yaman-jmeter
+
+cd /etc/profile.d/
+rm -rf JAVA_HOME.sh
+rm -rf JMETER_HOME.sh
+
 ###################### System update
 sudo yum -y update
 sudo yum -y install vim wget git
