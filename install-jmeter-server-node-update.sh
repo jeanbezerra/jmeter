@@ -61,7 +61,7 @@ sudo chmod -R 775 *
 
 ###################### Backup file jmeter.properties
 cp -r -a $JMETER_HOME/bin/jmeter.properties $JMETER_HOME/bin/jmeter-properties.original
-cp -r -a $JMETER_HOME/bin/jmeter-server.properties $JMETER_HOME/bin/jmeter-server.original
+cp -r -a $JMETER_HOME/bin/jmeter-server $JMETER_HOME/bin/jmeter-server.original
 
 ###################### Config jmeter.properties
 
@@ -104,7 +104,8 @@ sed -i 's|#server.rmi.localport=4000|server.rmi.localport=5000|g' /opt/yaman-jme
 ###################### Configuração do JMeter Server
 cd $JMETER_HOME/bin/
 #LOCAL_IP=$(/sbin/ip -o -4 addr list enp0s3 | awk '{print $4}' | cut -d/ -f1)
-LOCAL_IP=$(/sbin/ip -o -4 addr list enp0s5 | awk '{print $4}' | cut -d/ -f1)
+#LOCAL_IP=$(/sbin/ip -o -4 addr list enp0s5 | awk '{print $4}' | cut -d/ -f1)
+LOCAL_IP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 sed -i 's|#RMI_HOST_DEF=-Djava.rmi.server.hostname=xxx.xxx.xxx.xxx|RMI_HOST_DEF=-Djava.rmi.server.hostname='"$LOCAL_IP"'|g' $JMETER_HOME/bin/jmeter-server
 sed -i 's|-Dserver_port=${SERVER_PORT:-1099}|-Dserver_port=2000|g' $JMETER_HOME/bin/jmeter-server
 sed -i 's|jmeter-server.log|/tmp/jmeter-server.log|g' $JMETER_HOME/bin/jmeter-server
