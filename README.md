@@ -3,5 +3,5 @@
 # Aggregate Report com nome customizado
 
 ```sh
-results_${__time(yyyyMMdd_HHmmss)}.csv
+AGR_REPORT_${__time(yyyyMMdd_HHmmss)}.csv
 ```
