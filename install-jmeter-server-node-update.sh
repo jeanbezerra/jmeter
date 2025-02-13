@@ -19,13 +19,19 @@ cd /etc/profile.d/
 rm -rf JAVA_HOME.sh
 rm -rf JMETER_HOME.sh
 
+###################### Disable IPV6
+
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+
 ###################### System update
 sudo yum -y update
 sudo yum -y install vim wget git
 sudo timedatectl set-timezone America/Sao_Paulo
 
 ###################### IPv4 no Java
-echo 'export _JAVA_OPTIONS="-Djava.net.preferIPv4Stack=true"' | sudo tee /etc/profile.d/JAVA_OPTS.sh
+echo 'export _JAVA_OPTIONS="-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false"' | sudo tee /etc/profile.d/JAVA_OPTS.sh
 source /etc/profile.d/JAVA_OPTS.sh
 
 ###################### Install Java (Microsoft JDK 17)
@@ -122,11 +128,13 @@ sed -i 's|#server_port=1099|server_port=2000|g' /opt/yaman-jmeter/apache-jmeter-
 sed -i 's|#server.rmi.port=1234|server.rmi.port=2000|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
 sed -i 's|#server.rmi.localport=4000|server.rmi.localport=5000|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
 
+
 ###################### Configuração do JMeter Server
 cd $JMETER_HOME/bin/
 #LOCAL_IP=$(/sbin/ip -o -4 addr list enp0s3 | awk '{print $4}' | cut -d/ -f1)
 #LOCAL_IP=$(/sbin/ip -o -4 addr list enp0s5 | awk '{print $4}' | cut -d/ -f1)
 LOCAL_IP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+sed -i 's|^RMI_HOST_DEF=.*|RMI_HOST_DEF="-Djava.net.preferIPv4Stack=true -Djava.rmi.server.hostname=0.0.0.0"|' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter-server
 sed -i 's|#RMI_HOST_DEF=-Djava.rmi.server.hostname=xxx.xxx.xxx.xxx|RMI_HOST_DEF=-Djava.rmi.server.hostname='"$LOCAL_IP"'|g' $JMETER_HOME/bin/jmeter-server
 sed -i 's|-Dserver_port=${SERVER_PORT:-1099}|-Dserver_port=2000|g' $JMETER_HOME/bin/jmeter-server
 sed -i 's|jmeter-server.log|/tmp/jmeter-server.log|g' $JMETER_HOME/bin/jmeter-server
@@ -136,9 +144,9 @@ sed -i '54i JVM_ARGS="-Xms256m -Xmx25G -XX:+DisableExplicitGC"' $JMETER_HOME/bin
 sed -i '32i JVM_ARGS="-Xms256m -Xmx25G -XX:+DisableExplicitGC"' $JMETER_HOME/bin/jmeter.sh
 
 ###################### JMeter Server - Service
-sudo systemctl stop jmeter-server.service
-sudo systemctl disable jmeter-server.service
-sudo rm -rf /etc/systemd/system/jmeter-server.service
+sudo systemctl stop jmeter-server
+sudo systemctl disable jmeter-server
+sudo rm -rf /etc/systemd/system/jmeter-server
 sudo systemctl daemon-reload
 
 sudo cat <<EOF > /etc/systemd/system/jmeter-server.service
