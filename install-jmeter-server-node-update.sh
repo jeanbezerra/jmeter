@@ -18,6 +18,7 @@ rm -rf JMETER_HOME.sh
 ###################### System update
 sudo yum -y update
 sudo yum -y install vim wget git
+sudo timedatectl set-timezone America/Sao_Paulo
 
 ###################### Install Java (Microsoft JDK 17)
 cd /opt/
@@ -134,13 +135,19 @@ sudo systemctl daemon-reload
 
 sudo cat <<EOF > /etc/systemd/system/jmeter-server.service
 [Unit]
-Description=Jmeter-Server - Run Jmeter-Server
+Description=JMeter Server - Load Testing Tool
 After=network.target
-StartLimitIntervalSec=0
+
 [Service]
-Type=idle
+Type=simple
 User=root
-ExecStart=$JMETER_HOME/bin/jmeter-server
+WorkingDirectory=/opt/yaman-jmeter/apache-jmeter-5.6.3/bin
+Environment="JAVA_HOME=/opt/microsoft-jdk-17"
+Environment="JMETER_HOME=/opt/yaman-jmeter/apache-jmeter-5.6.3"
+ExecStart=/opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter-server
+Restart=always
+RestartSec=10s
+LimitNOFILE=65536
 
 [Install]
 WantedBy=multi-user.target
