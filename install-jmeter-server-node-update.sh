@@ -6,6 +6,10 @@
 
 ###################### Remover versões anteriores
 
+systemctl stop jmeter-server
+rm -rf /etc/systemd/system/jmeter-server.service
+systemctl disable jmeter-server
+
 cd /opt/
 rm -rf microsoft-jdk-17
 rm -rf microsoft-jdk-17.0.14-linux-x64.tar.gz
