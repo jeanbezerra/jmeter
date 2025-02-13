@@ -24,6 +24,10 @@ sudo yum -y update
 sudo yum -y install vim wget git
 sudo timedatectl set-timezone America/Sao_Paulo
 
+###################### IPv4 no Java
+echo 'export _JAVA_OPTIONS="-Djava.net.preferIPv4Stack=true"' | sudo tee /etc/profile.d/JAVA_OPTS.sh
+source /etc/profile.d/JAVA_OPTS.sh
+
 ###################### Install Java (Microsoft JDK 17)
 cd /opt/
 sudo wget https://publicsre.blob.core.windows.net/jmeter-scale/microsoft-jdk-17.0.14-linux-x64.tar.gz
@@ -148,9 +152,7 @@ User=root
 WorkingDirectory=/opt/yaman-jmeter/apache-jmeter-5.6.3/bin
 Environment="JAVA_HOME=/opt/microsoft-jdk-17"
 Environment="JMETER_HOME=/opt/yaman-jmeter/apache-jmeter-5.6.3"
-ExecStart=/opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter-server
-Restart=always
-RestartSec=10s
+ExecStart=/opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter-server -Djava.net.preferIPv4Stack=true
 LimitNOFILE=65536
 
 [Install]
