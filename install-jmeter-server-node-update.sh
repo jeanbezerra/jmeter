@@ -27,6 +27,9 @@ sudo tar -xzf microsoft-jdk-17.0.14-linux-x64.tar.gz
 # Renomeando e definindo JAVA_HOME
 sudo mv jdk-17.0.14+7 microsoft-jdk-17
 
+chmod -R 775 /opt/microsoft-jdk-17
+chown -R root:root /opt/microsoft-jdk-17
+
 sudo cat <<EOF > /etc/profile.d/JAVA_HOME.sh
 export JAVA_HOME=/opt/microsoft-jdk-17
 export PATH=\$PATH:\$JAVA_HOME/bin
