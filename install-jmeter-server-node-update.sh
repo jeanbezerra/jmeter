@@ -27,10 +27,9 @@ sudo tar -xzf microsoft-jdk-17.0.14-linux-x64.tar.gz
 # Renomeando e definindo JAVA_HOME
 sudo mv jdk-17.0.14+7 microsoft-jdk-17
 
-cd /etc/profile.d/
-sudo cat <<EOF > JAVA_HOME.sh
+sudo cat <<EOF > /etc/profile.d/JAVA_HOME.sh
 export JAVA_HOME=/opt/microsoft-jdk-17
-export PATH=$PATH:$JAVA_HOME/bin
+export PATH=\$PATH:\$JAVA_HOME/bin
 EOF
 
 source /etc/profile.d/JAVA_HOME.sh
@@ -43,10 +42,9 @@ sudo tar -xzf apache-jmeter-5.6.3.tgz
 sudo chmod -R 775 *
 
 ###################### JMETER_HOME
-cd /etc/profile.d/
-sudo cat <<EOF > JMETER_HOME.sh 
+sudo cat <<EOF > /etc/profile.d/JMETER_HOME.sh
 export JMETER_HOME=/opt/yaman-jmeter/apache-jmeter-5.6.3
-export PATH=$PATH:$JMETER_HOME/bin
+export PATH=\$PATH:\$JMETER_HOME/bin
 EOF
 
 source /etc/profile.d/JMETER_HOME.sh
@@ -159,6 +157,3 @@ sudo netstat -anot | grep 5000
 sleep 1s
 sudo netstat -anot | grep 2000
 sleep 1s
-
-###################### Restart
-sudo init 6
