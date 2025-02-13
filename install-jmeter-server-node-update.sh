@@ -120,8 +120,8 @@ sed -i 's|-Dserver_port=${SERVER_PORT:-1099}|-Dserver_port=2000|g' $JMETER_HOME/
 sed -i 's|jmeter-server.log|/tmp/jmeter-server.log|g' $JMETER_HOME/bin/jmeter-server
 
 ###################### JMeter Server - Memory Improvement
-sed -i '54i JVM_ARGS="-Xms10G -Xmx25G -XX:+DisableExplicitGC"' $JMETER_HOME/bin/jmeter
-sed -i '32i JVM_ARGS="-Xms10G -Xmx25G -XX:+DisableExplicitGC"' $JMETER_HOME/bin/jmeter.sh
+sed -i '54i JVM_ARGS="-Xms256m -Xmx25G -XX:+DisableExplicitGC"' $JMETER_HOME/bin/jmeter
+sed -i '32i JVM_ARGS="-Xms256m -Xmx25G -XX:+DisableExplicitGC"' $JMETER_HOME/bin/jmeter.sh
 
 ###################### JMeter Server - Service
 sudo systemctl stop jmeter-server.service
