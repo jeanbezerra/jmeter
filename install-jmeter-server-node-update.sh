@@ -30,8 +30,10 @@ sudo yum -y update
 sudo yum -y install vim wget git
 sudo timedatectl set-timezone America/Sao_Paulo
 
-###################### IPv4 no Java
+###################### Configuração do IPv4 no Java
 echo 'export _JAVA_OPTIONS="-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false"' | sudo tee /etc/profile.d/JAVA_OPTS.sh
+chmod -R 775 /etc/profile.d/JAVA_OPTS.sh
+chown -R root:root /etc/profile.d/JAVA_OPTS.sh
 source /etc/profile.d/JAVA_OPTS.sh
 
 ###################### Install Java (Microsoft JDK 17)
@@ -94,40 +96,43 @@ cp -r -a $JMETER_HOME/bin/jmeter-server $JMETER_HOME/bin/jmeter-server.original
 
 cd $JMETER_HOME/bin/
 
-sed -i 's|#jmeter.save.saveservice.output_format=csv|jmeter.save.saveservice.output_format=csv|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.time=true|jmeter.save.saveservice.time=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.response_message=true|jmeter.save.saveservice.response_message=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.successful=true|jmeter.save.saveservice.successful=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.sent_bytes=true|jmeter.save.saveservice.sent_bytes=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.filename=false|jmeter.save.saveservice.filename=false|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.encoding=false|jmeter.save.saveservice.encoding=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.idle_time=true|jmeter.save.saveservice.idle_time=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.label=true|jmeter.save.saveservice.label=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.thread_name=true|jmeter.save.saveservice.thread_name=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.assertions=true|jmeter.save.saveservice.assertions=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.thread_counts=true|jmeter.save.saveservice.thread_counts=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.latency=true|jmeter.save.saveservice.latency=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.hostname=false|jmeter.save.saveservice.hostname=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.response_code=true|jmeter.save.saveservice.response_code=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.data_type=true|jmeter.save.saveservice.data_type=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.bytes=true|jmeter.save.saveservice.bytes=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.subresults=true|jmeter.save.saveservice.subresults=false|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.url=true|jmeter.save.saveservice.url=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.connect_time=true|jmeter.save.saveservice.connect_time=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.sample_count=false|jmeter.save.saveservice.sample_count=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.assertion_results_failure_message=true|jmeter.save.saveservice.assertion_results_failure_message=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#jmeter.save.saveservice.print_field_names=true|jmeter.save.saveservice.print_field_names=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.output_format=csv|jmeter.save.saveservice.output_format=csv|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.time=true|jmeter.save.saveservice.time=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.response_message=true|jmeter.save.saveservice.response_message=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.successful=true|jmeter.save.saveservice.successful=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.sent_bytes=true|jmeter.save.saveservice.sent_bytes=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.filename=false|jmeter.save.saveservice.filename=false|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.encoding=false|jmeter.save.saveservice.encoding=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.idle_time=true|jmeter.save.saveservice.idle_time=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.label=true|jmeter.save.saveservice.label=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.thread_name=true|jmeter.save.saveservice.thread_name=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.assertions=true|jmeter.save.saveservice.assertions=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.thread_counts=true|jmeter.save.saveservice.thread_counts=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.latency=true|jmeter.save.saveservice.latency=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.hostname=false|jmeter.save.saveservice.hostname=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.response_code=true|jmeter.save.saveservice.response_code=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.data_type=true|jmeter.save.saveservice.data_type=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.bytes=true|jmeter.save.saveservice.bytes=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.subresults=true|jmeter.save.saveservice.subresults=false|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.url=true|jmeter.save.saveservice.url=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.connect_time=true|jmeter.save.saveservice.connect_time=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.sample_count=false|jmeter.save.saveservice.sample_count=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.assertion_results_failure_message=true|jmeter.save.saveservice.assertion_results_failure_message=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#jmeter.save.saveservice.print_field_names=true|jmeter.save.saveservice.print_field_names=true|g' $JMETER_HOME/bin/jmeter.properties
 
-#sed -i 's|#server.rmi.ssl.keystore.type=JKS|server.rmi.ssl.keystore.type=PKCS12|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-#sed -i 's|#server.rmi.ssl.keystore.file=rmi_keystore.jks|server.rmi.ssl.keystore.file=rmi_keystore.jks|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-#sed -i 's|#server.rmi.ssl.keystore.alias=rmi|server.rmi.ssl.keystore.alias=rmi|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-#sed -i 's|#server.rmi.ssl.keystore.password=changeit|server.rmi.ssl.keystore.password=UYdOAgYYyuvyQXf1zmWVurHxlzYH7Og5|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
+#sed -i 's|#server.rmi.ssl.keystore.type=JKS|server.rmi.ssl.keystore.type=PKCS12|g' $JMETER_HOME/bin/jmeter.properties
+#sed -i 's|#server.rmi.ssl.keystore.file=rmi_keystore.jks|server.rmi.ssl.keystore.file=rmi_keystore.jks|g' $JMETER_HOME/bin/jmeter.properties
+#sed -i 's|#server.rmi.ssl.keystore.alias=rmi|server.rmi.ssl.keystore.alias=rmi|g' $JMETER_HOME/bin/jmeter.properties
+#sed -i 's|#server.rmi.ssl.keystore.password=changeit|server.rmi.ssl.keystore.password=UYdOAgYYyuvyQXf1zmWVurHxlzYH7Og5|g' $JMETER_HOME/bin/jmeter.properties
 
-sed -i 's|#server.rmi.ssl.disable=false|server.rmi.ssl.disable=true|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#server_port=1099|server_port=2000|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#server.rmi.port=1234|server.rmi.port=2000|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-sed -i 's|#server.rmi.localport=4000|server.rmi.localport=5000|g' /opt/yaman-jmeter/apache-jmeter-5.6.3/bin/jmeter.properties
-
+sed -i 's|#server.rmi.ssl.disable=false|server.rmi.ssl.disable=true|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#server_port=1099|server_port=2000|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#server.rmi.port=1234|server.rmi.port=1099|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#server.rmi.localport=4000|server.rmi.localport=5000|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#server.rmi.localport=4000|server.rmi.localport=5000|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#client.rmi.localport=0|client.rmi.localport=5000|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#client.tries=1|client.tries=1|g' $JMETER_HOME/bin/jmeter.properties
+sed -i 's|#client.retries_delay=2000|client.retries_delay=2000|g' $JMETER_HOME/bin/jmeter.properties
 
 ###################### Configuração do JMeter Server
 cd $JMETER_HOME/bin/
